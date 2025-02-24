@@ -1,0 +1,30 @@
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.roomcompose.Internal.MyGamesRepository
+import com.example.roomcompose.Object.Games
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+
+class MyGamesViewModel(private val repository: MyGamesRepository) : ViewModel() {
+    val allGames = repository.getAll().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    init {
+        repository.syncFromFirestore() // Start Firestore sync when ViewModel initializes
+    }
+
+    fun insertGame(game: Games) {
+        viewModelScope.launch {
+            repository.insertGames(game)
+        }
+    }
+
+    fun deleteAllGames() {
+        viewModelScope.launch {
+            repository.deleteAllGames()
+        }
+    }
+}

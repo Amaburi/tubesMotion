@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "311105404242",
+    "project_id": "tubesmotion",
+    "storage_bucket": "tubesmotion.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311105404242:android:f31bf3b01bc82ba970ce8b",
+        "android_client_info": {
+          "package_name": "com.example.roomcompose"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGnZQrp-vf1pGMqTxd_AEFyEStNCMarM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

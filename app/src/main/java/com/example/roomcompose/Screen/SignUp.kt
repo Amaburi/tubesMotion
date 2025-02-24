@@ -1,0 +1,269 @@
+package com.example.roomcompose.Screen
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.roomcompose.R
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SignUp() {
+    var textFieldValue by remember { mutableStateOf("") };
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+
+    ) {
+        Column(
+            modifier = Modifier
+                .clip(shape = RoundedCornerShape(20.dp))
+                .fillMaxWidth()
+                .weight(1f)
+                .background(
+                    color = Color(0xFF232222),
+                    shape = RoundedCornerShape(20.dp)
+                )
+
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+
+                modifier = Modifier
+                    .padding(top = 69.dp, bottom = 41.dp, start = 10.dp, end = 35.dp)
+                    .height(30.dp)
+                    .fillMaxWidth()
+                    .padding(vertical = 2.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .width(20.dp)
+                            .height(20.dp),
+                        painter = painterResource(id = R.drawable.leftarrow),
+                        contentDescription = "",
+                        tint = colorResource(id = R.color.yellowpm)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Create Your Character",
+                        color = Color(0xFFE2F163),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+
+                }
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(vertical = 40.dp)
+            ) {
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "Forge Your Path – Enter the Gaming Realm!",
+                    color = Color.White,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.height(88.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 46.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = "Email",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                TextField(
+                    value = textFieldValue,
+                    onValueChange = { newText -> textFieldValue = newText },
+                    placeholder = { Text("example@example.com") },
+                    textStyle = TextStyle(
+                        color = Color.Black,
+                        fontSize = 16.sp
+                    ),
+                    modifier = Modifier
+                        .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
+                        .border(
+                            width = 1.dp,
+                            color = Color.White,
+                            shape = RoundedCornerShape(25.dp)
+                        )
+                        .clip(RoundedCornerShape(25.dp))
+                        .fillMaxWidth()
+                        .background(Color.White, shape = RoundedCornerShape(25.dp))
+                        .padding(vertical = 10.dp, horizontal = 14.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        disabledContainerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        cursorColor = Color(0xFF232222)
+                    )
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 46.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = "Password",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                TextField(
+                    value = textFieldValue,
+                    onValueChange = { newText -> textFieldValue = newText },
+                    placeholder = { Text("**********") },
+                    textStyle = TextStyle(
+                        color = Color.White,
+                        fontSize = 16.sp
+                    ),
+                    modifier = Modifier
+                        .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
+                        .border(
+                            width = 1.dp,
+                            color = Color.White,
+                            shape = RoundedCornerShape(25.dp)
+                        )
+                        .clip(RoundedCornerShape(25.dp))
+                        .fillMaxWidth()
+                        .background(Color.White, shape = RoundedCornerShape(25.dp))
+                        .padding(vertical = 10.dp, horizontal = 14.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        disabledContainerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        cursorColor = Color(0xFF232222)
+                    )
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 46.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = "Confirm Password",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                TextField(
+                    value = textFieldValue,
+                    onValueChange = { newText -> textFieldValue = newText },
+                    placeholder = { Text("**********") },
+                    textStyle = TextStyle(
+                        color = Color.White,
+                        fontSize = 16.sp
+                    ),
+                    modifier = Modifier
+                        .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
+                        .border(
+                            width = 1.dp,
+                            color = Color.White,
+                            shape = RoundedCornerShape(25.dp)
+                        )
+                        .clip(RoundedCornerShape(25.dp))
+                        .fillMaxWidth()
+                        .background(Color.White, shape = RoundedCornerShape(25.dp))
+                        .padding(vertical = 10.dp, horizontal = 14.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        disabledContainerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        cursorColor = Color(0xFF232222)
+                    )
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    OutlinedButton(
+                        modifier = Modifier
+                            .border(
+                                width = 1.dp,
+                                color = Color.Transparent,
+                                shape = RoundedCornerShape(25.dp)
+                            )
+                            .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
+                            .fillMaxWidth(),
+                        onClick = { /*TODO*/ },
+                        colors = ButtonDefaults.outlinedButtonColors(
+
+                        )
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .padding(vertical = 14.dp)
+                        ) {
+                            Text(
+                                "Sign Up",
+                                color = Color(0xFFFFFFFF),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+
+    }
+}
