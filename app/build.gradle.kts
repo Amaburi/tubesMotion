@@ -64,6 +64,9 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation("com.google.firebase:firebase-firestore-ktx:24.8.1")
+    implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
+    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation("com.google.accompanist:accompanist-pager:0.32.0")
 
     ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)

@@ -16,9 +16,15 @@ class MyGamesRepository(private val myGamesDao: MyGamesDao) {
     fun getAll() = myGamesDao.getAll()
 
     suspend fun insertGames(game: Games) {
-        myGamesDao.insertGamesInfo(game)
-        gamesCollection.document(game.id.toString()).set(game)
+        val gameId = myGamesDao.insertGamesInfo(game) // Insert and get Room ID
+        val newGame = game.copy(id = gameId.toInt())  // Update with generated ID
+
+        withContext(Dispatchers.IO) {
+            gamesCollection.document(newGame.id.toString()).set(newGame).await()
+        }
     }
+
+
 
     suspend fun deleteAllGames() {
         myGamesDao.deleteAllGames()

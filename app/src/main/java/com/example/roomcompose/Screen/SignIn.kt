@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,15 +19,23 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.roomcompose.Model.AuthViewModel
 import com.example.roomcompose.R
+import com.example.roomcompose.utils.LoginText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignIn() {
-    var textFieldValue by remember { mutableStateOf("") };
+fun SignIn(navController: NavController, authViewModel: AuthViewModel) {
+    var EmailValue by remember { mutableStateOf("") };
+    var PassValue by remember { mutableStateOf("") };
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    var passwordVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -116,8 +125,8 @@ fun SignIn() {
                     )
                 }
                 TextField(
-                    value = textFieldValue,
-                    onValueChange = { newText -> textFieldValue = newText },
+                    value = EmailValue,
+                    onValueChange = { newText -> EmailValue = newText },
                     placeholder = { Text("example@example.com") },
                     textStyle = TextStyle(
                         color = Color.Black,
@@ -157,13 +166,25 @@ fun SignIn() {
                     )
                 }
                 TextField(
-                    value = textFieldValue,
-                    onValueChange = { newText -> textFieldValue = newText },
+                    value = PassValue,
+                    onValueChange = { newText -> PassValue = newText },
                     placeholder = { Text("**********") },
                     textStyle = TextStyle(
-                        color = Color.White,
+                        color = Color.Black,
                         fontSize = 16.sp
                     ),
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(
+                                painter = painterResource(
+                                    id = if (passwordVisible) R.drawable.eyes_passvisible else R.drawable.eyes_passhidden
+                                ),
+                                contentDescription = if (passwordVisible) "Hide password" else "Show password",
+                                tint = Color.Black
+                            )
+                        }
+                    },
                     modifier = Modifier
                         .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
                         .border(
@@ -198,7 +219,15 @@ fun SignIn() {
                             )
                             .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
                             .fillMaxWidth(),
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            authViewModel.signIn(EmailValue, PassValue) { success, error ->
+                                if (success) {
+                                    navController.navigate("home")
+                                } else {
+                                    errorMessage = error
+                                }
+                            }
+                        },
                         colors = ButtonDefaults.outlinedButtonColors(
 
                         )
@@ -209,14 +238,16 @@ fun SignIn() {
                                 .padding(vertical = 14.dp)
                         ) {
                             Text(
-                                "Sign Up",
+                                "Sign In",
                                 color = Color(0xFFFFFFFF),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                         }
                     }
+                    LoginText(navController = navController,"Sign Up", "Doesn't have a chracter yet? ", "signup")
                 }
+
 
             }
 

@@ -12,7 +12,7 @@ interface MyGamesDao {
     fun getAll(): Flow<List<Games>>
 
     @Insert
-    suspend fun insertGamesInfo(game: Games)
+    suspend fun insertGamesInfo(game: Games): Long
 
     @Query("DELETE FROM gamesinfo")
     suspend fun deleteAllGames()

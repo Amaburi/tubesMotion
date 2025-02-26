@@ -1,9 +1,11 @@
 package com.example.roomcompose.Screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,15 +20,26 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.roomcompose.Model.AuthViewModel
 import com.example.roomcompose.R
+import com.example.roomcompose.utils.LoginText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUp() {
-    var textFieldValue by remember { mutableStateOf("") };
+fun SignUp(navController: NavController, authViewModel: AuthViewModel) {
+    var EmailValue by remember { mutableStateOf("") };
+    var PassValue by remember { mutableStateOf("") };
+    var Pass2Value by remember { mutableStateOf("") };
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var passwordVisible2 by remember { mutableStateOf(false) }
+    var passwordError by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -116,8 +129,8 @@ fun SignUp() {
                     )
                 }
                 TextField(
-                    value = textFieldValue,
-                    onValueChange = { newText -> textFieldValue = newText },
+                    value = EmailValue,
+                    onValueChange = { newText -> EmailValue = newText },
                     placeholder = { Text("example@example.com") },
                     textStyle = TextStyle(
                         color = Color.Black,
@@ -157,13 +170,26 @@ fun SignUp() {
                     )
                 }
                 TextField(
-                    value = textFieldValue,
-                    onValueChange = { newText -> textFieldValue = newText },
+                    value = PassValue,
+                    onValueChange = { newText -> PassValue = newText },
+
                     placeholder = { Text("**********") },
                     textStyle = TextStyle(
-                        color = Color.White,
+                        color = Color.Black,
                         fontSize = 16.sp
                     ),
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(
+                                painter = painterResource(
+                                    id = if (passwordVisible) R.drawable.eyes_passvisible else R.drawable.eyes_passhidden
+                                ),
+                                contentDescription = if (passwordVisible) "Hide password" else "Show password",
+                                tint = Color.Black
+                            )
+                        }
+                    },
                     modifier = Modifier
                         .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
                         .border(
@@ -183,6 +209,7 @@ fun SignUp() {
                         unfocusedIndicatorColor = Color.Transparent,
                         cursorColor = Color(0xFF232222)
                     )
+
                 )
                 Row(
                     modifier = Modifier
@@ -198,18 +225,32 @@ fun SignUp() {
                     )
                 }
                 TextField(
-                    value = textFieldValue,
-                    onValueChange = { newText -> textFieldValue = newText },
+                    value = Pass2Value,
+                    onValueChange = { newText -> Pass2Value = newText },
+                    isError = passwordError,
                     placeholder = { Text("**********") },
                     textStyle = TextStyle(
-                        color = Color.White,
+                        color = Color.Black,
                         fontSize = 16.sp
                     ),
+
+                    visualTransformation = if (passwordVisible2) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisible2 = !passwordVisible2 }) {
+                            Icon(
+                                painter = painterResource(
+                                    id = if (passwordVisible2) R.drawable.eyes_passvisible else R.drawable.eyes_passhidden
+                                ),
+                                contentDescription = if (passwordVisible2) "Hide password" else "Show password",
+                                tint = Color.Black
+                            )
+                        }
+                    },
                     modifier = Modifier
                         .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
                         .border(
                             width = 1.dp,
-                            color = Color.White,
+                            color = if (passwordError) Color.Red else Color.White,
                             shape = RoundedCornerShape(25.dp)
                         )
                         .clip(RoundedCornerShape(25.dp))
@@ -220,10 +261,12 @@ fun SignUp() {
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
                         disabledContainerColor = Color.White,
+                        errorContainerColor = Color.White,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         cursorColor = Color(0xFF232222)
                     )
+
                 )
 
                 Column(
@@ -240,7 +283,20 @@ fun SignUp() {
                             )
                             .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
                             .fillMaxWidth(),
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            val isMatch = Pass2Value == PassValue
+                            if (isMatch) {
+                                authViewModel.signUp(EmailValue, PassValue) { success, error ->
+                                    if (success) {
+                                        navController.navigate("login")
+                                    } else {
+                                        errorMessage = error
+                                    }
+                                }
+                            }else{
+                                passwordError = true
+                            }
+                        },
                         colors = ButtonDefaults.outlinedButtonColors(
 
                         )
@@ -258,6 +314,7 @@ fun SignUp() {
                             )
                         }
                     }
+                    LoginText(navController = navController, name = "Login", name2 = "Already has a character?  ", "login")
                 }
 
             }
