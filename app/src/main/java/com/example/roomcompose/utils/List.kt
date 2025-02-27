@@ -335,5 +335,33 @@ val sampleAchievements = listOf(
         progress = 1f,
         isCompleted = true,
         iconRes = R.drawable.people
-    )
+    ),
+    Achievement(
+        title = "Max Level",
+        description = "Reach the highest rank in the app",
+        progress = 1f,
+        isCompleted = true,
+        iconRes = R.drawable.fire
+    ),
+    Achievement(
+        title = "Big Spender",
+        description = "Spend over \$500 on games.",
+        progress = 1f,
+        isCompleted = true,
+        iconRes = R.drawable.money
+    ),
+    Achievement(
+        title = "SpeedRunner",
+        description = "Finish any game under 1 hour.",
+        progress = 1f,
+        isCompleted = true,
+        iconRes = R.drawable.rocket
+    ),
+    Achievement(
+        title = "Marathon Gamer",
+        description = "Play a game for 100+ hours.",
+        progress = 1f,
+        isCompleted = true,
+        iconRes = R.drawable.hour
+    ),
 )

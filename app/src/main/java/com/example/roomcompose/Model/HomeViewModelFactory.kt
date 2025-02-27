@@ -6,6 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.roomcompose.Internal.MyGamesRepository
 
 class MyGamesViewModelFactory(private val repository: MyGamesRepository) : ViewModelProvider.Factory {
+    /**
+     * Membuat instance dari ViewModel berdasarkan kelas yang diminta.
+     *
+     * @param modelClass Kelas ViewModel yang ingin dibuat.
+     * @return Instance dari ViewModel yang diminta.
+     * @throws IllegalArgumentException Jika kelas ViewModel tidak dikenal.
+     */
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MyGamesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
@@ -14,3 +21,4 @@ class MyGamesViewModelFactory(private val repository: MyGamesRepository) : ViewM
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+

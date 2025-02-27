@@ -4,6 +4,15 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Entity yang merepresentasikan tabel `gamesinfo` dalam database.
+ *
+ * @property id ID unik game, dihasilkan secara otomatis.
+ * @property name Nama game.
+ * @property sales Jumlah penjualan game.
+ * @property comments Komentar atau ulasan tentang game.
+ * @property price Harga game.
+ */
 @Entity(tableName = "gamesinfo")
 data class Games(
     @PrimaryKey(autoGenerate = true)
@@ -17,6 +26,9 @@ data class Games(
     @ColumnInfo(name = "price")
     val price: Int = 0
 ) {
-    // Firestore requires a no-arg constructor
+    /**
+     * Konstruktor tanpa argumen yang diperlukan oleh Firestore.
+     */
     constructor() : this(0, "", 0, "", 0)
 }
+

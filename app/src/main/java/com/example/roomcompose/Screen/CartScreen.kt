@@ -3,6 +3,8 @@ package com.example.roomcompose.Screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -108,13 +110,15 @@ fun CartScreen(navController: NavController, authView: AuthViewModel) {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            cartItems.forEach { item ->
-                CartItemCard(item) { removedItem ->
-                    cartItems = cartItems.filter { it.id != removedItem.id }
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            ) {
+                items(cartItems) { item ->
+                    CartItemCard(item) { removedItem ->
+                        cartItems = cartItems.filter { it.id != removedItem.id }
+                    }
                 }
             }
-
-            Spacer(modifier = Modifier.weight(1f))
 
             Button(
                 onClick = { },
@@ -188,5 +192,7 @@ data class CartItem(val id: Int, val name: String, val price: Double, val imageR
 val sampleCartItems = listOf(
     CartItem(1, "Elden Ring", 59.99, R.drawable.eldenring),
     CartItem(2, "Star Wars", 39.99, R.drawable.starwars),
-    CartItem(3, "Arena Legends", 49.99, R.drawable.zelda)
+    CartItem(3, "Zelda", 49.99, R.drawable.zelda),
+    CartItem(4, "Hell Divers 2", 49.99, R.drawable.helldivers2),
+    CartItem(5, "Hogwarts Legacy", 49.99, R.drawable.hogwarts)
 )

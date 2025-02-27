@@ -142,7 +142,7 @@ fun GamesScreen(navController: NavController, authView: AuthViewModel) {
                     Text(
                         "Popular Games",
                         fontSize = 20.sp,
-                        color = colorResource(id = R.color.white)
+                        color = if (isDarkTheme.value)colorResource(id = R.color.white) else colorResource(id = R.color.black)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -158,7 +158,7 @@ fun GamesScreen(navController: NavController, authView: AuthViewModel) {
                     Text(
                         "Latest Release",
                         fontSize = 20.sp,
-                        color = colorResource(id = R.color.white)
+                        color = if (isDarkTheme.value)colorResource(id = R.color.white) else colorResource(id = R.color.black)
                     )
                     SwipeableGameCards2()
                     Spacer(modifier = Modifier.height(16.dp))
@@ -166,7 +166,7 @@ fun GamesScreen(navController: NavController, authView: AuthViewModel) {
                     Text(
                         "Upcoming Games",
                         fontSize = 20.sp,
-                        color = colorResource(id = R.color.white)
+                        color = if (isDarkTheme.value)colorResource(id = R.color.white) else colorResource(id = R.color.black)
                     )
                     SwipeableGameCards3()
                 }

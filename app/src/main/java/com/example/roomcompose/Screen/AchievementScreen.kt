@@ -46,7 +46,6 @@ fun AchievementScreen(
     navController: NavController,
     authView: AuthViewModel
 ) {
-    val user by authView.user.collectAsState()
     val selectedTab = remember { mutableStateOf(0) }
     val isDarkTheme = remember { mutableStateOf(true) }
 
