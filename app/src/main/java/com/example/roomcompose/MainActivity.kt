@@ -20,11 +20,14 @@ import com.example.roomcompose.Internal.MyGamesRepository
 import com.example.roomcompose.Model.AuthViewModel
 import com.example.roomcompose.Model.AuthViewModelFactory
 import com.example.roomcompose.Model.MyGamesViewModelFactory
+import com.example.roomcompose.Screen.AchievementScreen
+import com.example.roomcompose.Screen.GamesScreen
 import com.example.roomcompose.Screen.HomeScreen
 import com.example.roomcompose.Screen.Settings
 import com.example.roomcompose.Screen.SignIn
 import com.example.roomcompose.Screen.SignUp
 import com.example.roomcompose.ui.theme.RoomcomposeTheme
+import com.example.roomcompose.utils.sampleAchievements
 import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
@@ -55,6 +58,8 @@ class MainActivity : ComponentActivity() {
                 composable("login") { SignIn(navController, authViewModel) }
                 composable("home") { HomeScreen(gamesViewModel, navController, authViewModel) }
                 composable("settings") { Settings(gamesViewModel, navController, authViewModel) }
+                composable("gamelist") { GamesScreen(navController, authViewModel) }
+                composable("achievement") { AchievementScreen(sampleAchievements,navController, authViewModel) }
 
             }
             //HomeScreen(gamesViewModel)

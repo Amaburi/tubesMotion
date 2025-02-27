@@ -1,57 +1,53 @@
 package com.example.roomcompose.Screen
 
-import MyGamesViewModel
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.roomcompose.Model.AuthViewModel
-import com.example.roomcompose.Object.Games
 import com.example.roomcompose.R
-import com.example.roomcompose.utils.CardGametwo
-
-import com.example.roomcompose.utils.SwipeableGameCards
+import com.example.roomcompose.utils.Achievement
+import com.example.roomcompose.utils.AchievementCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: MyGamesViewModel, navController: NavController, authView: AuthViewModel) {
-    val gamesList by viewModel.allGames.collectAsState(initial = emptyList())
-    val selectedTab = remember { mutableStateOf(0) }
-    var currentIndex by remember { mutableStateOf(0) }
-
+fun AchievementScreen(
+    achievements: List<Achievement>,
+    navController: NavController,
+    authView: AuthViewModel
+) {
     val user by authView.user.collectAsState()
-
+    val selectedTab = remember { mutableStateOf(0) }
     val isDarkTheme = remember { mutableStateOf(true) }
 
     Scaffold(
@@ -116,48 +112,33 @@ fun HomeScreen(viewModel: MyGamesViewModel, navController: NavController, authVi
         }
 
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(if (isDarkTheme.value) Color(0xFF121212) else Color(0xFFF5F5F5)) // Dark gray & light gray
                 .padding(paddingValues)
-                .padding(16.dp)
         ) {
-            Text(
-                "Featured & Recommend", fontSize = 35.sp, color = colorResource(id = R.color.white)
-            )
-            SwipeableGameCards()
-            Row() {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+            ) {
                 Text(
-                    "All Games", fontSize = 20.sp, color = colorResource(id = R.color.white)
+                    text = "Your Achievements",
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    color = if (isDarkTheme.value) Color.White else Color.Black,
+                    modifier = Modifier.padding(vertical = 16.dp)
                 )
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.right_arrow),
-                        contentDescription = "",
-                        tint = Color.White,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .padding(bottom = 15.dp)
-                    )
+
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(bottom = 16.dp)
+                ) {
+                    items(achievements) { achievement ->
+                        AchievementCard(achievement)
+                    }
                 }
             }
-            if (gamesList.isNotEmpty()) {
-                CardGametwo(
-                    game = gamesList[currentIndex],
-                    onLeftClick = {
-                        if (currentIndex > 0) {
-                            currentIndex -= 1
-                        }
-                    },
-                    onRightClick = {
-                        if (currentIndex < gamesList.size - 1) {
-                            currentIndex += 1
-                        }
-                    }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
         }
-
     }
 }
