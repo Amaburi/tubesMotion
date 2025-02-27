@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +44,7 @@ fun GameCard(
             .fillMaxWidth()
             .padding(8.dp)
             .height(160.dp)
+            .testTag("game_card")
             .border(
                 width = 1.dp,
                 color = colorResource(id = R.color.greenpm), // Your accent blue color

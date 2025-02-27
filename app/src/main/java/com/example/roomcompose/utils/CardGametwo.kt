@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,7 +45,8 @@ fun CardGametwo(
         Card(
             modifier = Modifier
                 .width(320.dp)
-                .height(130.dp),
+                .height(130.dp)
+                .testTag("game_card") ,
             shape = RoundedCornerShape(22.dp)
         ) {
             Row(

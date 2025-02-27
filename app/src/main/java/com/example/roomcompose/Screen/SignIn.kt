@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -133,6 +134,7 @@ fun SignIn(navController: NavController, authViewModel: AuthViewModel) {
                         fontSize = 16.sp
                     ),
                     modifier = Modifier
+                        .testTag("EmailField")
                         .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
                         .border(
                             width = 1.dp,
@@ -168,7 +170,7 @@ fun SignIn(navController: NavController, authViewModel: AuthViewModel) {
                 TextField(
                     value = PassValue,
                     onValueChange = { newText -> PassValue = newText },
-                    placeholder = { Text("**********") },
+                    placeholder = { Text("Password") },
                     textStyle = TextStyle(
                         color = Color.Black,
                         fontSize = 16.sp
@@ -186,6 +188,7 @@ fun SignIn(navController: NavController, authViewModel: AuthViewModel) {
                         }
                     },
                     modifier = Modifier
+                        .testTag("PasswordField")
                         .padding(bottom = 22.dp, start = 41.dp, end = 41.dp)
                         .border(
                             width = 1.dp,

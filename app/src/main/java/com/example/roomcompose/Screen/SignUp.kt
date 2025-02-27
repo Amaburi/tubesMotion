@@ -173,7 +173,7 @@ fun SignUp(navController: NavController, authViewModel: AuthViewModel) {
                     value = PassValue,
                     onValueChange = { newText -> PassValue = newText },
 
-                    placeholder = { Text("**********") },
+                    placeholder = { Text("Password") },
                     textStyle = TextStyle(
                         color = Color.Black,
                         fontSize = 16.sp
@@ -228,7 +228,7 @@ fun SignUp(navController: NavController, authViewModel: AuthViewModel) {
                     value = Pass2Value,
                     onValueChange = { newText -> Pass2Value = newText },
                     isError = passwordError,
-                    placeholder = { Text("**********") },
+                    placeholder = { Text("Password") },
                     textStyle = TextStyle(
                         color = Color.Black,
                         fontSize = 16.sp
