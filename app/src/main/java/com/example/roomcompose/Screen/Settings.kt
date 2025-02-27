@@ -128,13 +128,7 @@ fun Settings(viewModel: MyGamesViewModel, navController: NavController, authView
                 icon = Icons.Default.Add,
                 color = Color.Blue
             ) {
-                val dummyGame = Games(
-                    name = "CyberQuest",
-                    sales = 5000,
-                    comments = "Amazing open-world game!",
-                    price = 59
-                )
-                viewModel.insertGame(dummyGame)
+                navController.navigate("addgame")
             }
 
             SettingsButton(
@@ -154,6 +148,13 @@ fun Settings(viewModel: MyGamesViewModel, navController: NavController, authView
                 navController.navigate("home") {
                     popUpTo("home") { inclusive = true }
                 }
+            }
+            SettingsButton(
+                text = "Home",
+                icon = Icons.Default.ExitToApp,
+                color = Color.Gray
+            ) {
+                navController.navigate("home")
             }
         }
     }

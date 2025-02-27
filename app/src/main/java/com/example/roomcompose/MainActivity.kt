@@ -21,6 +21,8 @@ import com.example.roomcompose.Model.AuthViewModel
 import com.example.roomcompose.Model.AuthViewModelFactory
 import com.example.roomcompose.Model.MyGamesViewModelFactory
 import com.example.roomcompose.Screen.AchievementScreen
+import com.example.roomcompose.Screen.AddGameScreen
+import com.example.roomcompose.Screen.CartScreen
 import com.example.roomcompose.Screen.GamesScreen
 import com.example.roomcompose.Screen.HomeScreen
 import com.example.roomcompose.Screen.Settings
@@ -60,6 +62,8 @@ class MainActivity : ComponentActivity() {
                 composable("settings") { Settings(gamesViewModel, navController, authViewModel) }
                 composable("gamelist") { GamesScreen(navController, authViewModel) }
                 composable("achievement") { AchievementScreen(sampleAchievements,navController, authViewModel) }
+                composable("cart") { CartScreen(navController, authViewModel) }
+                composable("addgame") { AddGameScreen(gamesViewModel, navController) }
 
             }
             //HomeScreen(gamesViewModel)

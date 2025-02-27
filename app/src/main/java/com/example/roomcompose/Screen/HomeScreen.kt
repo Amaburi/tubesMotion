@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -55,7 +56,9 @@ fun HomeScreen(viewModel: MyGamesViewModel, navController: NavController, authVi
     val isDarkTheme = remember { mutableStateOf(true) }
 
     Scaffold(
-        containerColor = if (isDarkTheme.value) colorResource(id = R.color.black) else colorResource(id = R.color.white),
+        containerColor = if (isDarkTheme.value) colorResource(id = R.color.black) else colorResource(
+            id = R.color.white
+        ),
 
         // 🔹 TOP BAR
         topBar = {
@@ -64,17 +67,19 @@ fun HomeScreen(viewModel: MyGamesViewModel, navController: NavController, authVi
                     containerColor = if (isDarkTheme.value) Color.Black else Color.White,
                     titleContentColor = if (isDarkTheme.value) Color.White else Color.Black,
                 ),
-                title = { Text("Achievements", fontWeight = FontWeight.Bold) },
+                title = { Text("Home", fontWeight = FontWeight.Bold) },
                 actions = {
-                    if (user != null) {
-                        IconButton(onClick = { isDarkTheme.value = !isDarkTheme.value }) {
-                            Icon(
-                                painter = if (isDarkTheme.value) painterResource(id = R.drawable.moon) else painterResource(id = R.drawable.sun),
-                                contentDescription = "Toggle Theme",
-                                tint = if (isDarkTheme.value) Color.White else Color.Black
-                            )
-                        }
+
+                    IconButton(onClick = { isDarkTheme.value = !isDarkTheme.value }) {
+                        Icon(
+                            painter = if (isDarkTheme.value) painterResource(id = R.drawable.moon) else painterResource(
+                                id = R.drawable.sun
+                            ),
+                            contentDescription = "Toggle Theme",
+                            tint = if (isDarkTheme.value) Color.White else Color.Black
+                        )
                     }
+
                 }
             )
         },
@@ -88,25 +93,46 @@ fun HomeScreen(viewModel: MyGamesViewModel, navController: NavController, authVi
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        val icons = listOf(
-                            Pair(R.drawable.home, "home"),
-                            Pair(R.drawable.cart, "cart"),
-                            Pair(R.drawable.games, "gamelist"),
-                            Pair(R.drawable.trophies, "achievement"),
-                            Pair(R.drawable.settings_1, "settings")
-                        )
+                        if (user != null) {
+                            val icons = listOf(
+                                Pair(R.drawable.home, "home"),
+                                Pair(R.drawable.cart, "cart"),
+                                Pair(R.drawable.games, "gamelist"),
+                                Pair(R.drawable.trophies, "achievement"),
+                                Pair(R.drawable.settings_1, "settings")
+                            )
 
-                        icons.forEachIndexed { index, (icon, route) ->
-                            IconButton(
-                                onClick = {
-                                    selectedTab.value = index + 1
-                                    navController.navigate(route)
+                            icons.forEachIndexed { index, (icon, route) ->
+                                IconButton(
+                                    onClick = {
+                                        selectedTab.value = index + 1
+                                        navController.navigate(route)
+                                    }
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = icon),
+                                        contentDescription = route,
+                                        tint = if (selectedTab.value == index + 1) colorResource(id = R.color.greenpm) else Color.Gray
+                                    )
                                 }
+                            }
+                        } else {
+                            OutlinedButton(
+                                onClick = {
+                                    navController.navigate("login")
+                                },
+                                modifier = Modifier.fillMaxSize(),
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = Color.White
+                                )
                             ) {
-                                Icon(
-                                    painter = painterResource(id = icon),
-                                    contentDescription = route,
-                                    tint = if (selectedTab.value == index + 1) colorResource(id = R.color.greenpm) else Color.Gray
+                                Text(
+                                    "Login",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = colorResource(
+                                        id = R.color.black
+                                    )
                                 )
                             }
                         }
@@ -123,18 +149,18 @@ fun HomeScreen(viewModel: MyGamesViewModel, navController: NavController, authVi
                 .padding(16.dp)
         ) {
             Text(
-                "Featured & Recommend", fontSize = 35.sp, color = colorResource(id = R.color.white)
+                "Featured & Recommend", fontSize = 35.sp, color = if (isDarkTheme.value) colorResource(id = R.color.white) else colorResource(id = R.color.black)
             )
             SwipeableGameCards()
             Row() {
                 Text(
-                    "All Games", fontSize = 20.sp, color = colorResource(id = R.color.white)
+                    "All Games", fontSize = 20.sp, color = if (isDarkTheme.value) colorResource(id = R.color.white) else colorResource(id = R.color.black)
                 )
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
                         painter = painterResource(id = R.drawable.right_arrow),
                         contentDescription = "",
-                        tint = Color.White,
+                        tint = if (isDarkTheme.value)Color.White else colorResource(id = R.color.black),
                         modifier = Modifier
                             .size(40.dp)
                             .padding(bottom = 15.dp)
@@ -153,7 +179,8 @@ fun HomeScreen(viewModel: MyGamesViewModel, navController: NavController, authVi
                         if (currentIndex < gamesList.size - 1) {
                             currentIndex += 1
                         }
-                    }
+                    },
+                    isDarkTheme.value
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }

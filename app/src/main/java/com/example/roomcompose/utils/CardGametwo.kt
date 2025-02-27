@@ -1,6 +1,7 @@
 package com.example.roomcompose.utils
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,7 +36,8 @@ import com.example.roomcompose.R
 fun CardGametwo(
     game: Games,
     onLeftClick: () -> Unit,
-    onRightClick: () -> Unit
+    onRightClick: () -> Unit,
+    isDarkTheme: Boolean
 ) {
     Column(
         modifier = Modifier
@@ -93,7 +96,7 @@ fun CardGametwo(
                 Icon(
                     painter = painterResource(id = R.drawable.left_arrow), // Replace with your left arrow icon
                     contentDescription = "Previous",
-                    tint = Color.White
+                    tint = if (isDarkTheme)Color.White else colorResource(id = R.color.black)
                 )
             }
 
@@ -103,7 +106,7 @@ fun CardGametwo(
                 Icon(
                     painter = painterResource(id = R.drawable.right_arrow), // Replace with your right arrow icon
                     contentDescription = "Next",
-                    tint = Color.White
+                    tint = if (isDarkTheme)Color.White else colorResource(id = R.color.black)
                 )
             }
         }

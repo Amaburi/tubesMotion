@@ -54,7 +54,9 @@ fun GamesScreen(navController: NavController, authView: AuthViewModel) {
     val isDarkTheme = remember { mutableStateOf(true) }
 
     Scaffold(
-        containerColor = if (isDarkTheme.value) colorResource(id = R.color.black) else colorResource(id = R.color.white),
+        containerColor = if (isDarkTheme.value) colorResource(id = R.color.black) else colorResource(
+            id = R.color.white
+        ),
 
         // 🔹 TOP BAR
         topBar = {
@@ -63,17 +65,19 @@ fun GamesScreen(navController: NavController, authView: AuthViewModel) {
                     containerColor = if (isDarkTheme.value) Color.Black else Color.White,
                     titleContentColor = if (isDarkTheme.value) Color.White else Color.Black,
                 ),
-                title = { Text("Achievements", fontWeight = FontWeight.Bold) },
+                title = { Text("Games", fontWeight = FontWeight.Bold) },
                 actions = {
-                    if (user != null) {
-                        IconButton(onClick = { isDarkTheme.value = !isDarkTheme.value }) {
-                            Icon(
-                                painter = if (isDarkTheme.value) painterResource(id = R.drawable.moon) else painterResource(id = R.drawable.sun),
-                                contentDescription = "Toggle Theme",
-                                tint = if (isDarkTheme.value) Color.White else Color.Black
-                            )
-                        }
+
+                    IconButton(onClick = { isDarkTheme.value = !isDarkTheme.value }) {
+                        Icon(
+                            painter = if (isDarkTheme.value) painterResource(id = R.drawable.moon) else painterResource(
+                                id = R.drawable.sun
+                            ),
+                            contentDescription = "Toggle Theme",
+                            tint = if (isDarkTheme.value) Color.White else Color.Black
+                        )
                     }
+
                 }
             )
         },

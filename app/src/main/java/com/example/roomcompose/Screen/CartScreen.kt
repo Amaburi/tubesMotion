@@ -1,55 +1,33 @@
 package com.example.roomcompose.Screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.roomcompose.Model.AuthViewModel
 import com.example.roomcompose.R
-import com.example.roomcompose.utils.Achievement
-import com.example.roomcompose.utils.AchievementCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AchievementScreen(
-    achievements: List<Achievement>,
-    navController: NavController,
-    authView: AuthViewModel
-) {
-    val user by authView.user.collectAsState()
+fun CartScreen(navController: NavController, authView: AuthViewModel) {
+    var cartItems by remember { mutableStateOf(sampleCartItems) }
     val selectedTab = remember { mutableStateOf(0) }
-    val isDarkTheme = remember { mutableStateOf(true) }
+    var currentIndex by remember { mutableStateOf(0) }
 
+    val user by authView.user.collectAsState()
+
+    val isDarkTheme = remember { mutableStateOf(true) }
     Scaffold(
         containerColor = if (isDarkTheme.value) colorResource(id = R.color.black) else colorResource(
             id = R.color.white
@@ -62,9 +40,8 @@ fun AchievementScreen(
                     containerColor = if (isDarkTheme.value) Color.Black else Color.White,
                     titleContentColor = if (isDarkTheme.value) Color.White else Color.Black,
                 ),
-                title = { Text("Achievements", fontWeight = FontWeight.Bold) },
+                title = { Text("Cart", fontWeight = FontWeight.Bold) },
                 actions = {
-
                     IconButton(onClick = { isDarkTheme.value = !isDarkTheme.value }) {
                         Icon(
                             painter = if (isDarkTheme.value) painterResource(id = R.drawable.moon) else painterResource(
@@ -116,33 +93,100 @@ fun AchievementScreen(
         }
 
     ) { paddingValues ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(if (isDarkTheme.value) Color(0xFF121212) else Color(0xFFF5F5F5)) // Dark gray & light gray
+                .background(Color(0xFF121212))
+                .padding(16.dp)
                 .padding(paddingValues)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp)
+            Text(
+                text = "Your Cart",
+                color = Color.White,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            cartItems.forEach { item ->
+                CartItemCard(item) { removedItem ->
+                    cartItems = cartItems.filter { it.id != removedItem.id }
+                }
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = { },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE2F163))
             ) {
                 Text(
-                    text = "Your Achievements",
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                    color = if (isDarkTheme.value) Color.White else Color.Black,
-                    modifier = Modifier.padding(vertical = 16.dp)
+                    text = "Checkout",
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(8.dp)
                 )
+            }
+        }
+    }
 
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(bottom = 16.dp)
-                ) {
-                    items(achievements) { achievement ->
-                        AchievementCard(achievement)
-                    }
-                }
+}
+
+@Composable
+fun CartItemCard(item: CartItem, onRemove: (CartItem) -> Unit) {
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF232222)),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Image(
+                painter = painterResource(id = item.imageRes),
+                contentDescription = "Game Image",
+                modifier = Modifier.size(80.dp)
+            )
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 16.dp)
+            ) {
+                Text(
+                    text = item.name,
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "${'$'}${item.price}",
+                    color = Color(0xFFE2F163),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+
+            Button(
+                onClick = { onRemove(item) },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+            ) {
+                Text("Remove", color = Color.White)
             }
         }
     }
 }
+
+// Sample data
+data class CartItem(val id: Int, val name: String, val price: Double, val imageRes: Int)
+
+val sampleCartItems = listOf(
+    CartItem(1, "Elden Ring", 59.99, R.drawable.eldenring),
+    CartItem(2, "Star Wars", 39.99, R.drawable.starwars),
+    CartItem(3, "Arena Legends", 49.99, R.drawable.zelda)
+)
